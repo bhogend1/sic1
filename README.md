@@ -5,6 +5,7 @@
 
 
 ## Establishing order
+### Outline
 Stata organizes and reads data as a rectangle. The rows represent cases or observations. The columns represent variables. This data representation is intuitive for "simple" data, that is, non-nested data.
 
 We say that data are more "complex" when they are nested. Examples of **nesting** include eggs in birds' nests, pupils in classes, citizens in countries, workers in occupations, political parties in ideologies, repeated measurement moments in patients, and so on.
@@ -17,10 +18,9 @@ Longitudinal data are, by definition, three-dimensional or more:
 * **3** Individuals
 * (**4** Class rooms, schools, countries, ...)
 
-It is important to understand how you organize these dimensions. Stata offers two formats. Note that it is far easier to prepare your data using the long format:
+Stata offers two formats to organize these dimensions:
 * **Wide** Extra dimensions are hidden in the columns. For example, the columns income_1, income_2, and income_3 represent the values on the income variable at three different time points.
-* **Long** Extra dimensions are hidden in the rows. For example, the first row represents the values on the income variable at time point one, the second row at time point two, and the third row at time point three.
-
+* **Long** Extra dimensions are hidden in the rows. For example, the first row represents the values on the income variable at time point one, the second row at time point two, and the third row at time point three. This format is superior for most purposes.
 
 We will organize the data using the following commands:
 * `sort` Affects the rendition of the data rectangle, but not the format.
@@ -30,4 +30,35 @@ We will organize the data using the following commands:
 
 In addition, we will make use of **indexing**. When preparing data `by` group, you refer to a numbered observation of a variable by adding the number between square brackets after the variable. For example, `by id: gen firstyear = year[1]` creates a new variable called firstyear containing the first value on the year variable of each individual. Refer to the enumerated observation within the group using `_n` as the index number, and to the total number of observations within the group using `_N` as the index number.
 
+### Exercise 1
+`use http://www.stata-press.com/data/r15/reshape1`
+* What is the current data format?
+* Reshape the data into the other format.
+* Reshape the data back to their original format.
+
+### Exercise 2
+`sysuse auto.dta, clear`
+* Which variables could the data be nested in?
+* Sort the data by price in ascending order
+* Generate a variable containing the mean weight of all domestic cars and of all foreign cars
+
+### Exercise 3
+`sysuse nlsw88, clear`
+* Sort the data by race (primary) and wage (secondary)
+* Generate a variable that indicates, for each individual, the lowest wage in his/her race group.
+* Generate a variable that indicates, for each individual, the lowest wage in his/her industry. Do this in one command line.
+
+### Exercise 4
+`sysuse cancer.dta, clear`
+* Generate a variable that indicates, for each patient, how many other patients of the same age took part in the study
+* Generate a variable that indicates, for each patient, how s/he ranks in terms of analyis time compared to other patients that took the same drug.
+
+### Exercise 5
+```
+sysuse citytemp4.dta, clear
+gen random = runiform()
+replace tempjuly=. if random>.8
+drop division heatdd cooldd random
+```
+* Tempjan and tempjuly represent the average temperatures in January and July of 956 cities. Fill up the missing July temperatures with the July temperatures of other cities in the same administrative division that have similar January temperatures. Do this in one command line.
 
