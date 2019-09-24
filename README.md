@@ -25,7 +25,7 @@ Stata offers two formats to organize these dimensions:
 We will organize the data using the following commands:
 * `sort` Affects the rendition of the data rectangle, but not the format.
 * `by` Affects your calculations, but not the data rectangle. Requires that data are sorted.
-* `by, sort` Affects your calculations and the data rectangle.
+* `by, sort` Affects your calculations and the data rectangle. Variables in parentheses are sorted but not by'ed.
 * `reshape` Restructures your data into either wide or long format.
 
 In addition, we will make use of **indexing**. When preparing data `by` group, you refer to a numbered observation of a variable by adding the number between square brackets after the variable. For example, `by id: gen firstyear = year[1]` creates a new variable called firstyear containing the first value on the year variable of each individual. Refer to the enumerated observation within the group using `_n` as the index number, and to the total number of observations within the group using `_N` as the index number.
