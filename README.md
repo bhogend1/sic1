@@ -6,9 +6,9 @@
 
 ## Establishing order
 ### Outline
-Stata organizes and reads data as a rectangle. The rows represent cases or observations. The columns represent variables. This data representation is intuitive for "simple" data, that is, non-nested data.
+Stata organizes and reads data as rectangles. The rows represent cases or observations. The columns represent variables. This data representation is intuitive for "simple" data, that is, non-nested data.
 
-We say that data are more "complex" when they are nested. Examples of **nesting** include eggs in birds' nests, pupils in classes, citizens in countries, workers in occupations, political parties in ideologies, repeated measurement moments in patients, and so on.
+We say that data are more "complex" when they are nested. Examples of **nesting** include eggs in birds' nests, children in families, pupils in classes, citizens in countries, workers in occupations, political parties in ideologies, repeated measurement moments in patients, and so on.
 
 It can be useful to think of nesting as adding **dimensions** to the data. Simple data have two dimensions. The two dimensions are represented by rows and columns, respectively, yielding a rectangle. Complex data have more dimensions. These extra dimensions cannot intuitively be represented by a rectangle. Perhaps you could deal with three dimensions by stacking your rectangles as a pile of rectangular paper "sheets", where each sheets represents a values of the third dimension (e.g. time points). Unfortunately, your monitor screen is flat, and fourth or higher dimensions would go lost.
 
@@ -62,3 +62,49 @@ drop division heatdd cooldd random
 ```
 * Tempjan and tempjuly represent the average temperatures in January and July of 956 cities. Fill up the missing July temperatures with the July temperatures of other cities in the same administrative division that have similar January temperatures. Do this in one command line.
 
+
+## Working with time
+### Outline
+Time represents a third dimension in our data. We hide the time dimension in the rectangular data structure using Stata's long format. To do so, we need one variable representing the group id (e.g. student number) and one variable indicating the time point (e.g. year). There are three ways of showing Stata that there are hidden dimensions:
+* `xtset` declare panel data
+* `tsset` declare time series data
+* `stset` declare survival data
+
+There are no special benefits of declaring your data as any particular style. Stata simply uses it to check for potential errors. However, Stata forces you to declare your data before conducting panel analysis.
+
+One situation in which you need to declare your data, is when working with **unbalanced** panels. Unbalanced panels are panels in which not all individuals are observed at each time point. Panels are **weakly balanced** when there are no gaps between the first and last observation within each group, even if the groups were observed over different time period. Panels are **strongly balanced** when there are no gaps, and when all groups are observed over the same time period. Unbalanced panels typically form no problem for panel analysis. Yet, sometimes you will want to balance the panel. For example, when you can fill up missing values using the values from previous or later waves, connect cross-sectional data to synthesize a pseudo-panel, or construct your own panel from several administrative datafiles. Two commands come in handy here:
+* `tsfill` fills gaps in the panel by adding empty rows for each time point, after the data have been `tsset`.
+* `egen, seq()` creates a sequence of integers, particularly handy after the `expand`.
+
+### Exercise 1
+```
+webuse tsfillxmpl2, clear
+tsset, clear
+```
+* Create a strongly balanced panel.
+
+### Exercise 2
+```
+clear all
+set obs 100
+```
+* Generate a new variable indicating the years 1900 to 1999.
+
+### Exercise 3
+```
+clear all
+set obs 10
+gen id = _n
+expand 10
+```
+* Generate a new variable indicating the ten time points that each individual is observed.
+* For one individual, replace one of the time values by the value 11
+* Create a weakly balanced panel.
+
+### Exercise 4
+```
+sysuse cancer.dta, clear
+rename _t total
+gen id = _n
+```
+* The variable total represents the total analysis time of each patient. Restructure the data into a weakly balanced panel according to the long format, so that each patient has an entry for each time point that s/he was observed. Do this in two command lines.
