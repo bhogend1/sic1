@@ -118,7 +118,7 @@ quietly gen id = _n
 
 
 ## Cross-references and loops
-Stata uses more information than the data rectangle only. System settings are accessed using `creturn`, estimation information using `ereturn`, and general results using `return`. Other information can be stored in the following entities:
+Stata uses more information than the data rectangle only. System settings are accessed using `creturn`, subroutine macros using `sreturn`, estimation information using `ereturn`, and general results using `return`. Other information can be stored in the following entities:
 * **Matrix** A numeric rectangle.
 * **Scalar** A number or string.
 * **Global** A number or string, possibly resulting from extended macro functions.
@@ -234,11 +234,24 @@ All built-in commands are **programs**. They are primarily written in Mata, whic
 
 **command** *anything \[if\] \[in\]*, *options*
 
-Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. In particular, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in. Any *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is inferior.
+Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. In particular, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in, and can be further processed using `marksample`. The *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is inferior.
+
+Programs return their results in macros. These macros persist until they are overwritten. To indicate which macros can be overwritten, programs belong to a certain **class**. The idea is that each class of programs overwrites only those macros that were produced by the same class of programs. In practice, the classes are not strictly segregated, since it is possible for a program to overwrite macros of a different class or retain existing macros of their own class. The classes are as follows:
+* **nclass** programs do not return results.
+* **rclass** programs return results in `r()`, intended for general results.
+* **eclass** programs return results in `e()`, intended for estimation information.
+* **sclass** programs return results in `s()`, intended for subroutines that parse input, rarely used.
 
 The `viewsource` command allows users see the source code of existing programs. This is especially useful for understanding why a program does not work in your case and for recycling pieces of code.
 
+
 ### Exercise 1
+```
+clear all
+```
+* To which class belongs the regress program?
+
+### Exercise 2
 ```
 webuse nhanes2d, clear
 quietly keep bpsystol race age sex houssiz sizplace
@@ -248,7 +261,7 @@ quietly drop if race==3
 * Write a program that returns the change in the race coefficient following the inclusion of control variables, without showing the regression tables.
 * Bootstrap the change in the coefficient using 100 replacement samples.
 
-### Exercise 2
+### Exercise 3
 ```
 webuse nlswork, clear
 quietly gen random = runiform()
@@ -259,7 +272,7 @@ quietly keep idcode year collgrad ind_code c_city union
 * Write a program that allows you to specify a group identifier (e.g. individual) and a variable with missing values which will be filled using previous values from the same group.
 * Allow the program to select samples according to *\[if\]* conditions. Run the program on college graduates only.
 
-### Exercise 3
+### Exercise 4
 ```
 webuse nlswork, clear
 quietly decode race, gen(race2)
@@ -269,13 +282,13 @@ quietly tostring ind_code, gen(industry)
 * Allow the program to include any type of random-effects regression (e.g. xtreg, xtlogit, xtcloglog, ...).
 * Let the program issue the warning "What the hell are you doing?" when a user specifies a string variable for regression.
 
-### Exercise 4
+### Exercise 5
 ```
 net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
 help ekhb
 ```
 * What command is at the basis of the ekhb estimates?
-* Which two command lines make the program show the results?
+* What two command lines make the program show the results?
 
 
 # Session 3
