@@ -184,7 +184,7 @@ Looping can be made easier by automating certain tasks. For instance, you may wr
 * `quietly` and `noisily` force a command to hide or show its output, respectively.
 * `confirm` verifies the state of its arguments.
 * `assert` verifies a logical statement.
-* `if`, `elseif`, and `else` condition the execution of command lines. Differs from `if` inside a command line.
+* `if`, `else if`, and `else` condition the execution of command lines. Differs from `if` inside a command line.
 * `continue` and `exit` skip elements in a loop, break out of a loop, break out of a program, or break out of Stata.
 
 ### Exercise 1
@@ -249,7 +249,7 @@ The `viewsource` command allows users see the source code of existing programs. 
 ```
 clear all
 ```
-* To which class belongs the regress program?
+* To which class does the regress command belong?
 
 ### Exercise 2
 ```
