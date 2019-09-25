@@ -4,6 +4,8 @@
 * **Email** b.hogendoorn@uva.nl
 
 
+
+# Session 1
 ## Establishing order
 Stata organizes and reads data as rectangles. The rows represent cases or observations. The columns represent variables. This data representation is intuitive for "simple" data, that is, non-nested data.
 
@@ -68,6 +70,7 @@ replace tempjuly=. if random>.8
 drop division heatdd cooldd random
 ```
 * Tempjan and tempjuly represent the average temperatures in January and July of 956 cities. Fill up the missing July temperatures with the July temperatures of other cities in the same administrative division that have similar January temperatures. Do this in one command line.
+
 
 ## Working with time
 Time represents a third dimension in our data. We hide the time dimension in the rectangular data structure using Stata's long format. To do so, we need one variable representing the group id (e.g. student number) and one variable indicating the time point (e.g. year). There are three ways of showing Stata that there are hidden dimensions:
@@ -136,7 +139,6 @@ Local and global **macros** are very useful in programming. They can store any k
 
 Loops require you to specify the changing content of the local beforehand. Sometimes, you want to loop over all possible values of a variable, without specifying them manually. This can be achieved by storing the values in a local using `levelsof`.
 
-
 ### Exercise 1
 ```
 sysuse auto.dta, clear
@@ -149,7 +151,7 @@ sysuse auto.dta, clear
 ```
 sysuse auto.dta, clear
 ```
-* In a series of separate regressions, regress the car price on the weight, length, and great ratios, while controlling for mileage.
+* Conduct a series of regressions of car price on weight, length, and gear ratios, while controlling for mileage.
 * Generate variables containing the mean weight, length, and gear ratios, of all domestic cars and of all foreign cars.
 * Within each value of rep78, regress price on weight and save the coefficient in a (unique) scalar.
 
@@ -172,3 +174,54 @@ webuse airacc, clear
 webuse airacc, clear
 ```
 * Create a matrix containing the average rec of each airline.
+
+
+
+# Session 2
+## Tools for loops and programs
+Looping can be made easier by automating certain tasks. For instance, you may write a loop that only works for numeric variables, but do not manually want to check if a variable is numeric. Or, you would like to skip some command lines after the first looping round. Certain tools come in handy here:
+* `set trace` traces the execution of programs and loops for debugging.
+* `capture` suppresses output including error messages, and issues a return code in the scalar `_rc`.
+* `quietly` and `noisily` force a command to hide or show its output, respectively.
+* `confirm` verifies the state of its arguments.
+* `assert` verifies a logical statement.
+* `if`, `elseif`, and `else` condition the execution of command lines. Differs from `if` inside a command line.
+* `continue` and `exit` skip elements in a loop, break out of a loop, break out of a program, or break out of Stata.
+
+### Exercise 1
+```
+sysuse bplong, clear
+```
+* Check if all values on age group are either 1, 2, or 3.
+* Check if sex is a numeric variable.
+* Store the word "hello" in a local, and confirm that the local exists.
+
+### Exercise 2
+```
+webuse nlswork, clear
+decode race, gen(race2)
+tostring ind_code, gen(industry)
+keep idcode year age race2 union tenure hours industry
+```
+* Conduct a fixed-effects regression of hours worked on tenure, among those whose union status is known.
+* Conduct a series of fixed-effects regressions of hours worked on all numeric variables. Do this without checking their type manually.
+* Repeat, but hide the regression output and only display the coefficient.
+* Repeat, but finish the loop when encountering a positive regression coefficient.
+
+### Exercise 3
+```
+unab allvars : *
+local nvars : word count `allvars'
+forvalues i = 1/`nvars' {
+	local x : word `i' of `allvars'
+	capture noisily replace `x'=. if hours > 80
+	if _rc!=0 {
+		display "How to set all variables, including string variables, to missing for persons who work over 80 hours per week?"
+		continue, break
+	}
+}
+```
+* Debug the above loop.
+
+## Programming basics
+
