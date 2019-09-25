@@ -42,7 +42,7 @@ use http://www.stata-press.com/data/r15/reshape1
 ```
 sysuse auto.dta, clear
 ```
-* Which variables could the data be nested in?
+* What variables could the data be nested in?
 * Sort the data by price in ascending order.
 * Generate a variable containing the mean weight of all domestic cars and of all foreign cars.
 
