@@ -100,9 +100,9 @@ set obs 100
 ### Exercise 3
 ```
 clear all
-set obs 10
-gen id = _n
-expand 10
+quietly set obs 10
+quietly gen id = _n
+quietly expand 10
 ```
 * Generate a new variable indicating the ten time points that each individual is observed.
 * For one individual, replace one of the time values by the value 11.
@@ -111,8 +111,8 @@ expand 10
 ### Exercise 4
 ```
 sysuse cancer.dta, clear
-rename _t total
-gen id = _n
+quietly rename _t total
+quietly gen id = _n
 ```
 * The variable total represents the total analysis time of each patient. Restructure the data into a weakly balanced panel according to the long format, so that each patient has an entry for each time point that s/he was observed. Do this in two command lines.
 
@@ -198,11 +198,11 @@ sysuse bplong, clear
 ### Exercise 2
 ```
 webuse nlswork, clear
-decode race, gen(race2)
-tostring ind_code, gen(industry)
-keep idcode year age race2 union tenure hours industry
+quietly decode race, gen(race2)
+quietly tostring ind_code, gen(industry)
+quietly keep idcode year age race2 union tenure hours industry
 ```
-* Conduct a fixed-effects regression of hours worked on tenure, among those whose union status is known.
+* Conduct a fixed-effects regression of hours worked on tenure, among those whose union membership is known.
 * Conduct a series of fixed-effects regressions of hours worked on all numeric variables. Do this without checking their type manually.
 * Repeat, but hide the regression output and only display the coefficient.
 * Repeat, but finish the loop when encountering a positive regression coefficient.
@@ -241,8 +241,8 @@ The `viewsource` command allows users see the source code of existing programs. 
 ### Exercise 1
 ```
 webuse nhanes2d, clear
-keep bpsystol race age sex houssiz sizplace
-drop if race==3
+quietly keep bpsystol race age sex houssiz sizplace
+quietly drop if race==3
 ```
 * Does the difference in between blood pressure between black and white respondents decrease after adding control variables?
 * Write a program that returns the change in the race coefficient following the inclusion of control variables, without showing the regression tables.
@@ -251,19 +251,19 @@ drop if race==3
 ### Exercise 2
 ```
 webuse nlswork, clear
-gen random = runiform()
-replace ind_code = . if random>.85
-replace c_city =. if random<.15
-keep idcode year collgrad ind_code c_city union
+quietly gen random = runiform()
+quietly replace ind_code = . if random>.85
+quietly replace c_city =. if random<.15
+quietly keep idcode year collgrad ind_code c_city union
 ```
-* Write a program that allows you to specify a group variable (e.g. individual) and a variable with missing values which will be filled using previous values from the same group.
+* Write a program that allows you to specify a group identifier (e.g. individual) and a variable with missing values which will be filled using previous values from the same group.
 * Allow the program to select samples according to *\[if\]* conditions. Run the program on college graduates only.
 
 ### Exercise 3
 ```
 webuse nlswork, clear
-decode race, gen(race2)
-tostring ind_code, gen(industry)
+quietly decode race, gen(race2)
+quietly tostring ind_code, gen(industry)
 ```
 * Write a program that performs any type of cross-sectional regression (e.g. regress, logit, poisson, ...) on any variables specified by the user, on any sample selection, with any type of standard error adjustment (e.g. robust, cluster, ...).
 * Allow the program to include any type of random-effects regression (e.g. xtreg, xtlogit, xtcloglog, ...).
@@ -272,6 +272,50 @@ tostring ind_code, gen(industry)
 ### Exercise 4
 ```
 net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
+help ekhb
 ```
 * What command is at the basis of the ekhb estimates?
 * Which two command lines make the program show the results?
+
+
+# Session 3
+## Exporting results
+Stata results can be exported in several ways:
+* The built-in `save` and the sometimes-available option `saving` export data as datafiles.
+* The built-in `export` exports data as comma-separated files.
+* The built-in `outfile` exports data as text files.
+* The built-in `putexcel` exports matrices to Excel.
+* The user-written `asdoc` offers several templates for export to Word.
+* The user-written `estout` restructures regression results with some options for export.
+
+Whether a command is helpful or not depends on the situation. It is not unusual to switch between export commands. `putexcel` and `asdoc` are particularly useful in programming, because they allow you to export matrices.
+
+### Exercise 1
+```
+sysuse cancer.dta, clear
+```
+* Export the survivor function by `sts list` as a datafile.
+* Export the results of a proportional hazards regression of death on age and drug by `stcox` as a Word document.
+* Estimate a proportional hazards regression of death without explanatory variables, with only age as the explanatory variable, and with both age and drug as the explanatory variables. Restructure the three regression tables into a nice results table in Stata.
+
+### Exercise 2
+```
+webuse nlswork, clear
+```
+* Write a program that allows the user to specify the dependent and independent variables of a linear regression model. The user should also be able to specify a factor variable (e.g. marital status, union membership, industry code) so that the regression model is estimated separately for each level of that factor variable. Each regression table should be exported to a different Word file.
+
+### Exercise 3
+```
+webuse nlswork, clear
+net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
+ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
+```
+* Add an option to ekhb, enabling the user export the "percentage explained" table as a Word document, an Excel sheet, or a text file, to a directory of her choice.
+
+### Exercise 4
+```
+webuse nlswork, clear
+keep 
+```
+* Write a program that exports the coefficients and standard errors from an OLS and a fixed-effects regression to Excel. The user should be able to specify one dependent variable, one independent variable, and one group identifier (e.g. individual).
+* Rewrite the program. It should bootstrap the difference between the OLS and the fixed-effects regression coefficient, and export the difference and the bootstrap standard error of the difference to Excel. You can achieve this by embedding the program into another program.
