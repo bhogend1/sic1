@@ -5,7 +5,6 @@
 
 
 ## Establishing order
-### Outline
 Stata organizes and reads data as rectangles. The rows represent cases or observations. The columns represent variables. This data representation is intuitive for "simple" data, that is, non-nested data.
 
 We say that data are more "complex" when they are nested. Examples of **nesting** include eggs in birds' nests, children in families, pupils in classes, citizens in countries, workers in occupations, political parties in ideologies, repeated measurement moments in patients, and so on.
@@ -18,7 +17,7 @@ Longitudinal data are, by definition, three-dimensional or more:
 * **3** Individuals
 * (**4** Class rooms, schools, countries, ...)
 
-Stata offers two formats to organize these dimensions:
+Stata offers two formats to organize these extra dimensions:
 * **Wide** Extra dimensions are hidden in the columns. For example, the columns income_1, income_2, and income_3 represent the values on the income variable at three different time points.
 * **Long** Extra dimensions are hidden in the rows. For example, the first row represents the values on the income variable at time point one, the second row at time point two, and the third row at time point three. This format is superior for most purposes.
 
@@ -71,7 +70,6 @@ drop division heatdd cooldd random
 * Tempjan and tempjuly represent the average temperatures in January and July of 956 cities. Fill up the missing July temperatures with the July temperatures of other cities in the same administrative division that have similar January temperatures. Do this in one command line.
 
 ## Working with time
-### Outline
 Time represents a third dimension in our data. We hide the time dimension in the rectangular data structure using Stata's long format. To do so, we need one variable representing the group id (e.g. student number) and one variable indicating the time point (e.g. year). There are three ways of showing Stata that there are hidden dimensions:
 * `xtset` declare panel data
 * `tsset` declare time series data
@@ -136,3 +134,41 @@ Local and global **macros** are very useful in programming. They can store any k
 * `foreach of` A loop over a local macro, global macro, variable list, or number list.
 * `forvalues` A loop over a range of numbers.
 
+Loops require you to specify the changing content of the local beforehand. Sometimes, you want to loop over all possible values of a variable, without specifying them manually. This can be achieved by storing the values in a local using `levelsof`.
+
+
+### Exercise 1
+```
+sysuse auto.dta, clear
+```
+* Replace missing values of rep78 by the average rep78.
+* Store your working directory into a global.
+* Save the dataset into your working directory under the name "testdata.dta".
+
+### Exercise 2
+```
+sysuse auto.dta, clear
+```
+* In a series of separate regressions, regress the car price on the weight, length, and great ratios, while controlling for mileage.
+* Generate variables containing the mean weight, length, and gear ratios, of all domestic cars and of all foreign cars.
+* Within each value of rep78, regress price on weight and save the coefficient in a (unique) scalar.
+
+### Exercise 3
+```
+clear all
+```
+* Display the outcomes of the following calculations: 1x10, 2x20, 3x30, 4x40, and 5x50.
+* There are four animals: cat, dog, cow, pig. There are four sounds: meow, woof, moo, oink-oink. Make each animal say its own sound.
+
+### Exercise 4
+```
+webuse airacc, clear
+```
+* Conduct a fixed-effects regression of rec on uit, inprog, and pmiles
+* Generate variables containing the averages of uit, inprog, and pmiles. Then regress rec on uit, inprog, and pmiles and their averages.
+
+### Exercise 5
+```
+webuse airacc, clear
+```
+* Create a matrix containing the average rec of each airline.
