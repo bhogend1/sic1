@@ -4,14 +4,13 @@
 * **Email** b.hogendoorn@uva.nl
 
 
-
 # Session 1
 ## Establishing order
 Stata organizes and reads data as rectangles. The rows represent cases or observations. The columns represent variables. This data representation is intuitive for "simple" data, that is, non-nested data.
 
 We say that data are more "complex" when they are nested. Examples of **nesting** include eggs in birds' nests, children in families, pupils in classes, citizens in countries, workers in occupations, political parties in ideologies, repeated measurement moments in patients, and so on.
 
-It can be useful to think of nesting as adding **dimensions** to the data. Simple data have two dimensions. The two dimensions are represented by rows and columns, respectively, yielding a rectangle. Complex data have more dimensions. These extra dimensions cannot intuitively be represented by a rectangle. Perhaps you could deal with three dimensions by stacking your rectangles as a pile of rectangular paper "sheets", where each sheets represents a values of the third dimension (e.g. time points). Unfortunately, your monitor screen is flat, and fourth or higher dimensions would go lost.
+It can be useful to think of nesting as adding **dimensions** to the data. Simple data have two dimensions. The two dimensions are represented by rows and columns, respectively, yielding a rectangle. Complex data have more dimensions. These extra dimensions cannot intuitively be represented by a rectangle. Perhaps you could deal with three dimensions by stacking your rectangles as a pile of rectangular paper "sheets", where each sheets represents a value of the third dimension (e.g. time points). Unfortunately, your monitor screen is flat, and fourth or higher dimensions would go lost.
 
 Longitudinal data are, by definition, three-dimensional or more:
 * **1** Variables
@@ -223,5 +222,56 @@ forvalues i = 1/`nvars' {
 ```
 * Debug the above loop.
 
-## Programming basics
 
+## Programming basics
+A Stata program consists in a number of command lines. There are several benefits to using programs:
+* Repeated execution of the same commands
+* Sample selection using `if` or `in`
+* Compatible with Stata prefixes
+* Embedding in other programs
+
+All built-in commands are **programs**. They are primarily written in Mata, which is the language underneath the surface of Stata, and which we will not cover. All user-written commands are also programs. They are sometimes written in Mata and sometimes in Stata. Programs are called in a command line with a particular structure.
+
+**command** *anything \[if\] \[in\]*, *options*
+
+Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. In particular, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in. Any *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is inferior.
+
+The `viewsource` command allows users see the source code of existing programs. This is especially useful for understanding why a program does not work in your case and for recycling pieces of code.
+
+### Exercise 1
+```
+webuse nhanes2d, clear
+keep bpsystol race age sex houssiz sizplace
+drop if race==3
+```
+* Does the difference in between blood pressure between black and white respondents decrease after adding control variables?
+* Write a program that returns the change in the race coefficient following the inclusion of control variables, without showing the regression tables.
+* Bootstrap the change in the coefficient using 100 replacement samples.
+
+### Exercise 2
+```
+webuse nlswork, clear
+gen random = runiform()
+replace ind_code = . if random>.85
+replace c_city =. if random<.15
+keep idcode year collgrad ind_code c_city union
+```
+* Write a program that allows you to specify a group variable (e.g. individual) and a variable with missing values which will be filled using previous values from the same group.
+* Allow the program to select samples according to *\[if\]* conditions. Run the program on college graduates only.
+
+### Exercise 3
+```
+webuse nlswork, clear
+decode race, gen(race2)
+tostring ind_code, gen(industry)
+```
+* Write a program that performs any type of cross-sectional regression (e.g. regress, logit, poisson, ...) on any variables specified by the user, on any sample selection, with any type of standard error adjustment (e.g. robust, cluster, ...).
+* Allow the program to include any type of random-effects regression (e.g. xtreg, xtlogit, xtcloglog, ...).
+* Let the program issue the warning "What the hell are you doing?" when a user specifies a string variable for regression.
+
+### Exercise 4
+```
+net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
+```
+* What command is at the basis of the ekhb estimates?
+* Which two command lines make the program show the results?
