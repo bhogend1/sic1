@@ -317,5 +317,5 @@ ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
 webuse nlswork, clear
 keep 
 ```
-* Write a program that exports the coefficients and standard errors from an OLS and a fixed-effects regression to Excel. The user should be able to specify one dependent variable, one independent variable, and one group identifier (e.g. individual).
-* Rewrite the program. It should bootstrap the difference between the OLS and the fixed-effects regression coefficient, and export the difference and the bootstrap standard error of the difference to Excel. You can achieve this by embedding the program into another program.
+* Write a program that exports the coefficients and standard errors from an OLS and a fixed-effects regression to Excel. The user should be able to specify one dependent variable, one independent variable, and one group identifier.
+* Rewrite the program. It should bootstrap the difference between the OLS and the fixed-effects regression coefficient, and export the coefficient and bootstrap standard error of the difference to Excel. You can achieve this by embedding the program into another program.
