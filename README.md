@@ -32,7 +32,7 @@ In addition, we will make use of **indexing**. When preparing data `by` group, y
 
 ### Exercise 1
 ```
-use http://www.stata-press.com/data/r15/reshape1
+webuse reshape1.dta, clear
 ```
 * What is the current data format?
 * Reshape the data into the other format.
@@ -48,7 +48,7 @@ sysuse auto.dta, clear
 
 ### Exercise 3
 ```
-sysuse nlsw88, clear
+sysuse nlsw88.dta, clear
 ```
 * Sort the data by race (primary) and wage (secondary)
 * Generate a variable that indicates, for each individual, the lowest wage in his/her race group.
@@ -85,7 +85,7 @@ One situation in which you need to declare your data, is when working with **unb
 
 ### Exercise 1
 ```
-webuse tsfillxmpl2, clear
+webuse tsfillxmpl2.dta, clear
 tsset, clear
 ```
 * Create a strongly balanced panel.
@@ -163,14 +163,14 @@ clear all
 
 ### Exercise 4
 ```
-webuse airacc, clear
+webuse airacc.dta, clear
 ```
 * Conduct a fixed-effects regression of rec on uit, inprog, and pmiles
 * Generate variables containing the averages of uit, inprog, and pmiles. Then regress rec on uit, inprog, and pmiles and their averages.
 
 ### Exercise 5
 ```
-webuse airacc, clear
+webuse airacc.dta, clear
 ```
 * Create a matrix containing the average rec of each airline.
 
@@ -189,7 +189,7 @@ Looping can be made easier by automating certain tasks. For instance, you may wr
 
 ### Exercise 1
 ```
-sysuse bplong, clear
+sysuse bplong.dta, clear
 ```
 * Check if all values on age group are either 1, 2, or 3.
 * Check if sex is a numeric variable.
@@ -197,7 +197,7 @@ sysuse bplong, clear
 
 ### Exercise 2
 ```
-webuse nlswork, clear
+webuse nlswork.dta, clear
 quietly decode race, gen(race2)
 quietly tostring ind_code, gen(industry)
 quietly keep idcode year age race2 union tenure hours industry
@@ -253,7 +253,7 @@ clear all
 
 ### Exercise 2
 ```
-webuse nhanes2d, clear
+webuse nhanes2d.dta, clear
 quietly keep bpsystol race age sex houssiz sizplace
 quietly drop if race==3
 ```
@@ -263,7 +263,7 @@ quietly drop if race==3
 
 ### Exercise 3
 ```
-webuse nlswork, clear
+webuse nlswork.dta, clear
 quietly gen random = runiform()
 quietly replace ind_code = . if random>.85
 quietly replace c_city =. if random<.15
@@ -274,7 +274,7 @@ quietly keep idcode year collgrad ind_code c_city union
 
 ### Exercise 4
 ```
-webuse nlswork, clear
+webuse nlswork.dta, clear
 quietly decode race, gen(race2)
 quietly tostring ind_code, gen(industry)
 ```
@@ -313,13 +313,13 @@ sysuse cancer.dta, clear
 
 ### Exercise 2
 ```
-webuse nlswork, clear
+webuse nlswork.dta, clear
 ```
 * Write a program that allows the user to specify the dependent and independent variables of a linear regression model. The user should also be able to specify a factor variable (e.g. marital status, union membership, industry code) so that the regression model is estimated separately for each level of that factor variable. Each regression table should be exported to a different Word file.
 
 ### Exercise 3
 ```
-webuse nlswork, clear
+webuse nlswork.dta, clear
 net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
 ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
 ```
@@ -327,7 +327,7 @@ ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
 
 ### Exercise 4
 ```
-webuse nlswork, clear
+webuse nlswork.dta, clear
 keep 
 ```
 * Write a program that exports the coefficients and standard errors from an OLS and a fixed-effects regression to Excel. The user should be able to specify one dependent variable, one independent variable, and one group identifier.
