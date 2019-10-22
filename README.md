@@ -165,8 +165,8 @@ clear all
 ```
 webuse airacc.dta, clear
 ```
-* Conduct a fixed-effects regression of rec on uit, inprog, and pmiles
-* Generate variables containing the averages of uit, inprog, and pmiles. Then regress rec on uit, inprog, and pmiles and their averages.
+* Conduct a regression of rec on uit, inprog, and pmiles, with fixed effects for airlines.
+* Generate variables containing the averages of uit, inprog, and pmiles by airline. Then regress rec on uit, inprog, and pmiles and their averages.
 
 ### Exercise 5
 ```
