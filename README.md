@@ -77,7 +77,7 @@ Time represents a third dimension in our data. We hide the time dimension in the
 * `tsset` declare time series data
 * `stset` declare survival data
 
-There are no special benefits of declaring your data as any particular style. Stata simply uses it to check for potential errors. However, Stata forces you to declare your data before conducting panel analysis.
+There are no particular benefits of declaring your data as any particular style. Stata simply uses it to check for potential errors. However, Stata forces you to declare your data before conducting panel analysis.
 
 One situation in which you need to declare your data, is when working with **unbalanced** panels. Unbalanced panels are panels in which not all individuals are observed at each time point. Panels are **weakly balanced** when there are no gaps between the first and last observation within each group, though the groups are observed over different time periods. Panels are **strongly balanced** when there are no gaps, and when all groups are observed over the same time period. Unbalanced panels typically form no problem for panel analysis. Yet, sometimes you will want to balance the panel. For example, when you can fill up missing values using the values from previous or later waves, connect cross-sectional data to synthesize a pseudo-panel, or construct your own panel from several administrative datafiles. Two commands come in handy here:
 * `tsfill` fills gaps in the panel by adding empty rows for each time point, after the data have been `tsset`.
@@ -234,7 +234,7 @@ All built-in commands are **programs**. They are primarily written in Mata, whic
 
 **command** *anything \[if\] \[in\]*, *options*
 
-Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. In particular, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in, and can be further processed using `marksample`. The *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is inferior.
+Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. That is, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in, and can be further processed using `marksample`. The *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is not recommended.
 
 Programs return their results in macros. These macros persist until they are overwritten. To indicate which macros can be overwritten, programs belong to a certain **class**. The idea is that each class of programs overwrites only those macros that were produced by the same class of programs. In practice, the classes are not strictly segregated, since it is possible for a program to overwrite macros of a different class or retain existing macros of their own class. The classes are as follows:
 * **nclass** programs do not return results.
@@ -323,7 +323,7 @@ webuse nlswork.dta, clear
 net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
 ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
 ```
-* Add an option to ekhb, enabling the user export the "percentage explained" table as a Word document, an Excel sheet, or a text file, to a directory of her choice.
+* Add an option to ekhb that enable the user export the "percentage explained" table as a Word document, an Excel sheet, or a text file, to a directory of her choice.
 
 ### Exercise 4
 ```
