@@ -68,7 +68,7 @@ gen random = runiform()
 replace tempjuly=. if random>.8
 drop division heatdd cooldd random
 ```
-* Tempjan and tempjuly represent the average temperatures in January and July of 956 cities. Fill up the missing July temperatures with the July temperatures of other cities in the same administrative division that have similar January temperatures. Do this in one command line.
+* Tempjan and tempjuly represent the average temperatures in January and July of 956 cities. Fill up the missing July temperatures with the July temperatures of other cities in the same region that have similar January temperatures. Do this in one command line.
 
 
 ## Working with time
@@ -81,7 +81,7 @@ There are no special benefits of declaring your data as any particular style. St
 
 One situation in which you need to declare your data, is when working with **unbalanced** panels. Unbalanced panels are panels in which not all individuals are observed at each time point. Panels are **weakly balanced** when there are no gaps between the first and last observation within each group, though the groups are observed over different time periods. Panels are **strongly balanced** when there are no gaps, and when all groups are observed over the same time period. Unbalanced panels typically form no problem for panel analysis. Yet, sometimes you will want to balance the panel. For example, when you can fill up missing values using the values from previous or later waves, connect cross-sectional data to synthesize a pseudo-panel, or construct your own panel from several administrative datafiles. Two commands come in handy here:
 * `tsfill` fills gaps in the panel by adding empty rows for each time point, after the data have been `tsset`.
-* `egen, seq()` creates a sequence of integers, particularly handy after the `expand`.
+* `egen, seq()` creates a sequence of integers, particularly handy after `expand`.
 
 ### Exercise 1
 ```
