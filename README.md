@@ -210,6 +210,9 @@ quietly keep idcode year age race2 union tenure hours industry
 ### Exercise 3
 ```
 webuse nlswork.dta, clear
+quietly decode race, gen(race2)
+quietly tostring ind_code, gen(industry)
+quietly keep idcode year age race2 union tenure hours industry
 unab allvars : *
 local nvars : word count `allvars'
 forvalues i = 1/`nvars' {
