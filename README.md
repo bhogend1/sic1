@@ -209,6 +209,7 @@ quietly keep idcode year age race2 union tenure hours industry
 
 ### Exercise 3
 ```
+webuse nlswork.dta, clear
 unab allvars : *
 local nvars : word count `allvars'
 forvalues i = 1/`nvars' {
@@ -230,13 +231,13 @@ A Stata program consists in a number of command lines. There are several benefit
 * Compatible with Stata prefixes
 * Embedding in other programs
 
-All built-in commands are **programs**. They are primarily written in Mata, which is the language underneath the surface of Stata, and which we will not cover. All user-written commands are also programs. They are sometimes written in Mata and sometimes in Stata. Programs are called in a command line with a particular structure.
+All built-in commands are **programs**. They are primarily written in Mata, which is the language underneath the surface of Stata, and which we will not cover. All user-written commands are also programs. They are sometimes written in Mata and sometimes in Stata. Programs are called using a command line with the following structure:
 
 **command** *anything \[if\] \[in\]*, *options*
 
 Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. That is, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in, and can be further processed using `marksample`. The *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is not recommended.
 
-Programs return their results in macros. These macros persist until they are overwritten. To indicate which macros can be overwritten, programs belong to a certain **class**. The idea is that each class of programs overwrites only those macros that were produced by the same class of programs. In practice, the classes are not strictly segregated, since it is possible for a program to overwrite macros of a different class or retain existing macros of their own class. The classes are as follows:
+Programs return their results in macros. These macros persist until they are overwritten. To indicate which macros can be overwritten, programs belong to a certain **class**. The idea is that each class of programs overwrites only those macros that were produced by the same class of programs. In practice, the classes are not strictly segregated, and it is possible for a program to overwrite macros of a different class or retain existing macros of their own class. The classes are as follows:
 * **nclass** programs do not return results.
 * **rclass** programs return results in `r()`, intended for general results.
 * **eclass** programs return results in `e()`, intended for estimation information.
@@ -288,7 +289,7 @@ net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
 help ekhb
 ```
 * What command is at the basis of the ekhb estimates?
-* What two command lines make the program show the results?
+* Which two command lines make the program show the results?
 
 
 # Session 3
