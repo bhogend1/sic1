@@ -257,7 +257,7 @@ webuse nhanes2d.dta, clear
 quietly keep bpsystol race age sex houssiz sizplace
 quietly drop if race==3
 ```
-* Does the difference in between blood pressure between black and white respondents decrease after adding control variables?
+* Does the difference in blood pressure between black and white respondents decrease after adding all control variables?
 * Write a program that returns the change in the race coefficient following the inclusion of control variables, without showing the regression tables.
 * Bootstrap the change in the coefficient using 100 replacement samples.
 
