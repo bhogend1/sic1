@@ -235,7 +235,7 @@ All built-in commands are **programs**. They are primarily written in Mata, whic
 
 **command** *anything \[if\] \[in\]*, *options*
 
-Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. That is, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *\[if\]* and *\[in\]* conditions are passed to two locals called if and in, and can be further processed using `marksample`. The *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is not recommended.
+Stata can interpret commands because it relies on a set of rules that governs their structure. This set of rules is called **syntax**. The syntax tells Stata how to convert a term in a command line into a set of locals, depending on the position of that term. These locals can then be processed inside the program. That is, the command term itself calls the program. The arguments that follow as *anything* are passed to a local called anything. The *if* and *in* conditions are passed to two locals called if and in, and can be further processed using `marksample`. The *options* are passed to locals with the name of those options. All syntactic terms are parsed using the `syntax` command inside a program. Alternatively one could use the `args` command, but this is not recommended.
 
 Programs return their results in macros. These macros persist until they are overwritten. To indicate which macros can be overwritten, programs belong to a certain **class**. The idea is that each class of programs overwrites only those macros that were produced by the same class of programs. In practice, the classes are not strictly segregated, and it is possible for a program to overwrite macros of a different class or retain existing macros of their own class. The classes are as follows:
 * **nclass** programs do not return results.
@@ -271,7 +271,7 @@ quietly replace c_city =. if random<.15
 quietly keep idcode year collgrad ind_code c_city union
 ```
 * Write a program that allows you to specify a group identifier (e.g. individual) and a variable with missing values which will be filled using previous values from the same group.
-* Allow the program to select samples according to *\[if\]* conditions. Run the program on college graduates only.
+* Allow the program to select samples according to *if* conditions. Run the program on college graduates only.
 
 ### Exercise 4
 ```
