@@ -323,7 +323,7 @@ webuse nlswork.dta, clear
 net install ekhb, from(https://raw.github.com/bhogend1/ekhb/master/)
 ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
 ```
-* Add an option to ekhb that enable the user export the "percentage explained" table as a Word document, an Excel sheet, or a text file, to a directory of her choice.
+* Add an option to ekhb that enables the user to export the "percentage explained" table as a Word document, an Excel sheet, or a text file, to a directory of her choice.
 
 ### Exercise 4
 ```
