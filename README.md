@@ -328,7 +328,6 @@ ekhb logit union, decompose(age) mediators(collgrad) vce(cluster idcode)
 ### Exercise 4
 ```
 webuse nlswork.dta, clear
-keep 
 ```
 * Write a program that exports the coefficients and standard errors from an OLS and a fixed-effects regression to Excel. The user should be able to specify one dependent variable, one independent variable, and one group identifier.
 * Rewrite the program. It should bootstrap the difference between the OLS and the fixed-effects regression coefficient, and export the coefficient and bootstrap standard error of the difference to Excel. Do this by embedding the program into another program.
