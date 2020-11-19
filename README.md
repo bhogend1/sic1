@@ -2,7 +2,7 @@
 * **AISSR** Short intensive course
 * **Instructor** Bram Hogendoorn
 * **Email** b.hogendoorn@uva.nl
-
+* **Course manual** available [here](https://github.com/bhogend1/sic1/raw/master/SIC_Basic_programming_for_longitudinal_data_in_Stata_course_manual.pdf)
 
 # Session 1
 ## Establishing order
@@ -50,7 +50,7 @@ sysuse auto.dta, clear
 ```
 sysuse nlsw88.dta, clear
 ```
-* Sort the data by race (primary) and wage (secondary)
+* Sort the data by race (primary) and wage (secondary).
 * Generate a variable that indicates, for each individual, the lowest wage in his/her race group.
 * Generate a variable that indicates, for each individual, the lowest wage in his/her industry. Do this in one command line.
 
