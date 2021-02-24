@@ -290,6 +290,9 @@ help ekhb
 * What command is at the basis of the ekhb estimates?
 * Which two command lines make the program show the results?
 
+### Solutions
+Solutions are available [here](https://github.com/bhogend1/sic1/blob/master/session_2_solutions.do). Other solutions may also be possible.
+
 
 # Session 3
 ## Exporting results
@@ -331,3 +334,6 @@ webuse nlswork.dta, clear
 ```
 * Write a program that exports the coefficients and standard errors from an OLS and a fixed-effects regression to Excel. The user should be able to specify one dependent variable, one independent variable, and one group identifier.
 * Rewrite the program. It should bootstrap the difference between the OLS and the fixed-effects regression coefficient, and export the coefficient and bootstrap standard error of the difference to Excel. Do this by embedding the program into another program.
+
+### Solutions
+Solutions are available [here](https://github.com/bhogend1/sic1/blob/master/session_3_solutions.do). Other solutions may also be possible.
